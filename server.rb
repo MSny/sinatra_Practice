@@ -40,15 +40,28 @@ delete "/cars/:id" do
   redirect("/")
 end
 
+def authkey(key)
+  if key == nil || key == ""
+    yield "You need an apiKey."
+    return false
+  else
+    if $apiKeys[key] 
+      $apiKeys[key]+=1
+    else $apiKeys[key]=1
+    end
+    if $apiKeys[key] >= 6
+      yield "You've used this API too many time :("
+      return false
+    else
+      return true
+    end
+  end
+end
+
+
 get "/api/cars" do
 	key = params[:apiKey]
-	if $apiKeys[key] 
-		$apiKeys[key]+=1
-	else $apiKeys[key]=1
-	end
-	if $apiKeys[key] >= 6
-		return "You've used this API too many time :("
-	else 			
+  if authkey(key) {|err| return err}
 		cars = db.execute("SELECT * FROM cars")
 		content_type :json
 		cars.to_json
@@ -56,8 +69,11 @@ get "/api/cars" do
 end
 
 get "/api/cars/:id" do
-	cars = db.execute("SELECT * FROM cars WHERE id = ?", params[:id])
-	content_type :json
-	cars.to_json
+  key = params[:apiKey]
+  if authkey(key) {|err| return err}
+  	cars = db.execute("SELECT * FROM cars WHERE id = ?", params[:id])
+  	content_type :json
+  	cars.to_json
+  end
 end
 
