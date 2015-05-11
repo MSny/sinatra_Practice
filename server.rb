@@ -44,3 +44,9 @@ get "/api/cars" do
   content_type :json
   cars.to_json
 end
+
+get "/api/cars/:id" do
+	cars = db.execute("SELECT * FROM cars WHERE id = ?", params[:id])
+	content_type :json
+	cars.to_json
+end
