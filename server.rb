@@ -1,5 +1,6 @@
 require "sinatra"
 require "sqlite3"
+require "json"
 
 db = SQLite3::Database.new "practice.db"
 
@@ -36,4 +37,10 @@ end
 delete "/cars/:id" do
   db.execute("DELETE FROM cars WHERE id = ?", params[:id])
   redirect("/")
+end
+
+get "/api/cars" do
+  cars = db.execute("SELECT * FROM cars")
+  content_type :json
+  cars.to_json
 end
