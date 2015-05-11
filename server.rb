@@ -50,7 +50,7 @@ def authkey(key)
     else $apiKeys[key]=1
     end
     if $apiKeys[key] >= 6
-      yield "You've used this API too many time :("
+      yield "You've used this API too many times :("
       return false
     else
       return true
