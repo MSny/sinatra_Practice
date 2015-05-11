@@ -32,3 +32,8 @@ put "/cars/:id" do
 	db.execute("UPDATE cars SET class = ?, company = ?, year = ? WHERE id= ?", params[:class],params[:company],params[:year], params[:id])
 	redirect("cars/#{params[:id]}")
 end
+
+delete "/cars/:id" do
+  db.execute("DELETE FROM cars WHERE id = ?", params[:id])
+  redirect("/")
+end

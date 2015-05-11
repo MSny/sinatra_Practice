@@ -5,12 +5,16 @@
 <body>
 	<%= car[1] %> <%= car[2] %> <%=car[3] %>
 	<br/>
-	<form method='POST' action"/cars/<%= car[0] %>">
+	<form method='POST' action="/cars/<%= car[0] %>">
 	<input type="hidden" name="_method" value="PUT">
 	<input type="text" name="class" value="<%= car[1] %>">
 	<input type="text" name="company" value="<%= car[2] %>">
 	<input type="text" name="year" value="<%= car[3] %>">
 	<button>Update</button>
+	</form>
+	<form method="POST" action="/cars/<%= car[0] %>">
+	<input type="hidden" name="_method" value="DELETE">
+	<button>Delete</button>
 	</form>
 	<a href="/">Home</a>
 </body>
