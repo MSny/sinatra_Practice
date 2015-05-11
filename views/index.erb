@@ -4,5 +4,21 @@
 </head>
 <body>
 <h1>Hello World</h1>
+<form method="POST" action="/cars">
+  <ul>
+    <li><label for="class">class</label></li>
+    <li><input type="text" name="class"></li>
+    <li><label for="company">company</label></li>
+    <li><input type="text" name="company"></li>
+    <li><label for="year">year</label></li>
+    <li><input type="text" name="year"></li>
+    <li><button type="submit">add car</button></li>
+  </ul>
+</form>
+<ul>
+  <% cars.each do |car| %>
+  <li><a href="/car/<%= car[0] %>"><%= car[1] %> - <%= car[2] %> - <%= car[3] %></a></li>
+  <% end %>
+</ul>
 </body>
 </html>

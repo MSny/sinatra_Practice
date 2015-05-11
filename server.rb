@@ -14,5 +14,11 @@ SQL
 
 
 get "/" do 
-	erb :index , locals:{}
+  cars = db.execute("SELECT * FROM cars");
+	erb :index , locals:{cars: cars}
+end
+
+post "/cars" do
+  db.execute("INSERT INTO cars (class,company,year) VALUES (?,?,?);",params[:class],params[:company],params[:year])
+  redirect('/')
 end
