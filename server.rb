@@ -18,7 +18,17 @@ get "/" do
 	erb :index , locals:{cars: cars}
 end
 
+get "/cars/:id" do
+	car = db.execute("SELECT * FROM cars WHERE id=?", params[:id])
+	erb :show, locals:{car: car[0]}
+end
+
 post "/cars" do
   db.execute("INSERT INTO cars (class,company,year) VALUES (?,?,?);",params[:class],params[:company],params[:year])
   redirect('/')
+end
+
+put "/cars/:id" do
+	db.execute("UPDATE cars SET class = ?, company = ?, year = ? WHERE id= ?", params[:class],params[:company],params[:year], params[:id])
+	redirect("cars/#{params[:id]}")
 end
