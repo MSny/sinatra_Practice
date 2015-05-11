@@ -1,6 +1,7 @@
 require "sinatra"
 require "sqlite3"
 require "json"
+$apiKeys = {}
 
 db = SQLite3::Database.new "practice.db"
 
@@ -40,9 +41,18 @@ delete "/cars/:id" do
 end
 
 get "/api/cars" do
-  cars = db.execute("SELECT * FROM cars")
-  content_type :json
-  cars.to_json
+	key = params[:apiKey]
+	if $apiKeys[key] 
+		$apiKeys[key]+=1
+	else $apiKeys[key]=1
+	end
+	if $apiKeys[key] >= 6
+		return "You've used this API too many time :("
+	else 			
+		cars = db.execute("SELECT * FROM cars")
+		content_type :json
+		cars.to_json
+	end
 end
 
 get "/api/cars/:id" do
@@ -50,3 +60,4 @@ get "/api/cars/:id" do
 	content_type :json
 	cars.to_json
 end
+
